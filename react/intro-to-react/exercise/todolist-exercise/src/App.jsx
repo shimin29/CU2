@@ -1,21 +1,56 @@
-import AddTodoForm from "./AddTodoForm"
-import TodoList from "./TodoList"
+import { useState } from "react";
+import AddTodoForm from "./AddTodoForm";
+import TodoList from "./Todolist";
 
-function App(){
-  return(
-    <>
-     <div className="card rounded shadow-sm"
-      style={{maxWidth: "500px", margin:" 60px auto"}}>
-      <div className="card-body">
-        <h3 className="card-title mb-3">My Todo List</h3>
-        <TodoList/>
-        <AddTodoForm/>
-      </div>
-    </div>
+function App() {
+    const [todos, setTodos] = useState([
+        {
+            id: 1,
+            label: "Task 1",
+            isCompleted: true,
+        },
+        {
+            id: 2,
+            label: "Task 2",
+            isCompleted: false,
+        },
+        {
+            id: 3,
+            label: "Task 3",
+            isCompleted: false,
+        },
+    ]);
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    </>
-  )
+    const toggleIsCompleted = (taskId) => {
+        setTodos(todos.map((todo) => (todo.id === taskId ? { ...todo, isCompleted: !todo.isCompleted } : todo)));
+    };
+
+    const deleteTodo = (id) => {
+        setTodos(todos.filter((todo) => todo.id != id));
+    };
+
+    const addToDo = (label) => {
+        setTodos([
+            ...todos,
+            {
+                id: todos.length + 1,
+                label: label,
+                isCompleted: false,
+            },
+        ]);
+    };
+
+    return (
+        <>
+            <div className="card rounded shadow-sm" style={{ maxWidth: "500px", margin: "60px auto" }}>
+                <div className="card-body">
+                    <h3 className="card-title mb-3">My Todo List</h3>
+                    <TodoList todos={todos} toggleIsCompleted={toggleIsCompleted} deleteTodo={deleteTodo} />
+                    <AddTodoForm addToDo={addToDo} />
+                </div>
+            </div>
+        </>
+    );
 }
- 
-export default App
+
+export default App;
