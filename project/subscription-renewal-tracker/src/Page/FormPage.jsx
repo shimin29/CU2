@@ -2,20 +2,13 @@ import { useState, useEffect } from "react";
 import { Container, Typography, Card, CardContent, TextField, Button, Stack, MenuItem, Box } from "@mui/material";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { loadSubscriptions, saveSubscriptions, updateSubscription } from "../utils/storage";
+import { loadSubscriptions, saveSubscriptions, updateSubscription } from "../javascript/storage";
 
 export default function FormPage() {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const [formData, setFormData] = useState({
-        name: "",
-        cost: "",
-        billingCycle: "monthly",
-        renewalDate: "",
-        category: "",
-        paymentMethod: "",
-    });
+    const [formData, setFormData] = useState({ name: "", cost: "", billingCycle: "monthly", renewalDate: "", category: "", paymentMethod: "" });
 
     useEffect(() => {
         if (id) {
@@ -39,8 +32,8 @@ export default function FormPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        //edit mode
         if (id) {
-            // Edit mode
             updateSubscription({
                 id: Number(id),
                 ...formData,
@@ -102,6 +95,7 @@ export default function FormPage() {
                             <Stack spacing={3}>
                                 <TextField label="Service Name" name="name" value={formData.name} onChange={handleChange} fullWidth required />
 
+                                 {/* cost的limit */}
                                 <TextField
                                     label="Cost (RM)"
                                     name="cost"
@@ -155,7 +149,7 @@ export default function FormPage() {
                                     <MenuItem value="PayPal">PayPal</MenuItem>
                                     <MenuItem value="FPX">FPX</MenuItem>
                                 </TextField>
-                                
+
                                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }}>
                                     <Button
                                         component={Link}

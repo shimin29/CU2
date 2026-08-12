@@ -80,7 +80,7 @@ export default function SubscriptionCard({ sub, onDelete, onToggleStatus, onRene
                         <Button
                             variant="contained"
                             size="small"
-                            disabled={sub.status === "cancelled"}
+                            disabled={sub.status === "cancelled"} //这一段code是防止我cancel后 停止renew的code
                             onClick={() => onRenew(sub.id)}
                             sx={{
                                 textTransform: "none",
